@@ -15,7 +15,7 @@ abstract public class Vista {
     
     abstract public void aplicacionInicio(String initInfo);
     abstract public void aplicacionMenu();
-    abstract public void aplicacionFin(String initFin);
+    abstract public void aplicacionFin(String finInfo);
     
 
 

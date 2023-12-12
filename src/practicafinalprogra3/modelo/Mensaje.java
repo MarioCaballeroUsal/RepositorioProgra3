@@ -35,6 +35,7 @@ public class Mensaje {
         this.remitente = remitente;
     }
 
+    
     public String getTexto() {
         return texto;
     }

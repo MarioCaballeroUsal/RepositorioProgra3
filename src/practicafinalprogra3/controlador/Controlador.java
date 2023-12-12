@@ -4,6 +4,8 @@
  */
 package practicafinalprogra3.controlador;
 
+import java.util.List;
+import practicafinalprogra3.modelo.Conversacion;
 import practicafinalprogra3.modelo.Modelo;
 import practicafinalprogra3.vista.Vista;
 
@@ -14,10 +16,27 @@ import practicafinalprogra3.vista.Vista;
 public class Controlador {
     Modelo modelo;
     Vista vista;
+    String mensajeIni= "Bienvenido! Inicializando Aplicacion...";
 
     public Controlador(Modelo modelo, Vista vista) {
         this.modelo = modelo;
         this.vista = vista;
     }
+
+    public void finalizarApp() {
+        modelo.finalizarApp();
+    }
+
+    public void nuevaConversacion() {
+        modelo.nuevaConversacion();
+    }
+
+    public List<Conversacion> getConversaciones() {
+        return modelo.getConversaciones();
+    }
     
+    public String formateaConversacion(Conversacion c){
+       
+        return modelo.formateaConversacion(c);
+    }
 }

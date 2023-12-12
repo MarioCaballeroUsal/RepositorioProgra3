@@ -14,4 +14,7 @@ import java.util.List;
 public class Conversacion {
     
     List<Mensaje> mensajes;
+    String tipoLLM;
+    long fechaIni;
+    long fechaFin;
 }
