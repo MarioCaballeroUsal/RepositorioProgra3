@@ -39,4 +39,9 @@ public class Controlador {
        
         return modelo.formateaConversacion(c);
     }
+
+    public void comenzarApp() {
+        modelo.comenzarApp();
+        
+    }
 }

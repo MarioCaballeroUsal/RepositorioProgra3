@@ -4,10 +4,14 @@
  */
 package practicafinalprogra3.modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author mario
  */
 public interface Repositorio {
+    public ArrayList<Conversacion> importarConversaciones();
     
+    public void exportarConversaciones (ArrayList<Conversacion> conversaciones);
 }

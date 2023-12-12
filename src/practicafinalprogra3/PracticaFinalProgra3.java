@@ -65,6 +65,7 @@ public class PracticaFinalProgra3 {
         
         vista.setControlador(controlador);
         
+        controlador.comenzarApp();
         
     }
     
