@@ -20,7 +20,17 @@ public class Modelo implements Repositorio, LLM {
     }
 
     public String formateaConversacion(Conversacion c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String convFormateada = null;
+        
+        Mensaje mensaje = c.mensajes.get(0);
+        String fechaIni = String.valueOf(c.fechaIni);
+        String numMensajes= String.valueOf(c.mensajes.size());
+        String iniMensaje = mensaje.texto.substring(0, 20);
+        
+        convFormateada =fechaIni+"|"+numMensajes+"|"+iniMensaje;
+
+        
+        return convFormateada;
     }
 
     public List<Conversacion> getConversaciones() {

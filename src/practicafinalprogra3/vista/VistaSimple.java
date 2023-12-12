@@ -13,6 +13,8 @@ import practicafinalprogra3.modelo.Conversacion;
  */
 public class VistaSimple extends Vista {
     
+    
+    
     @Override
     public void aplicacionInicio(String initInfo){
         System.out.printf("%s", initInfo);
@@ -36,7 +38,8 @@ public class VistaSimple extends Vista {
             System.out.println("1. Nueva Conversacion");
             System.out.println("2. Mostrar Conversaciones");
             System.out.println("3. Eliminar Conversacion");
-            System.out.println("4. Salir del Programa");
+            System.out.println("4. Exportar Conversaciones");
+            System.out.println("5. Salir del Programa");
   
             opcion = Esdia.readInt("Ingrese una opción: ",1 ,4);
 
@@ -51,6 +54,9 @@ public class VistaSimple extends Vista {
                     eliminarConversacion();
                     break;
                 case 4:
+                    exportarConversaciones();
+                    break;
+                case 5:
                     aplicacionFin("Saliendo...");
                     break;
                 default:
@@ -74,6 +80,10 @@ public class VistaSimple extends Vista {
         for(Conversacion c : conversaciones){
             System.out.printf("%s", controlador.formateaConversacion(c));
         }
+    }
+    
+    public void exportarConversaciones(){
+        
     }
     
     public void eliminarConversacion(){
