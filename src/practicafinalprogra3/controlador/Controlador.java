@@ -4,6 +4,7 @@
  */
 package practicafinalprogra3.controlador;
 
+import java.util.ArrayList;
 import java.util.List;
 import practicafinalprogra3.modelo.Conversacion;
 import practicafinalprogra3.modelo.Modelo;
@@ -31,7 +32,7 @@ public class Controlador {
         modelo.nuevaConversacion();
     }
 
-    public List<Conversacion> getConversaciones() {
+    public ArrayList<Conversacion> getConversaciones() {
         return modelo.getConversaciones();
     }
     

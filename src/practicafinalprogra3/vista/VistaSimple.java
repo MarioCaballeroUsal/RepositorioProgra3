@@ -4,6 +4,7 @@
  */
 package practicafinalprogra3.vista;
 import com.coti.tools.Esdia;
+import java.util.ArrayList;
 import java.util.List;
 import practicafinalprogra3.modelo.Conversacion;
 
@@ -73,7 +74,7 @@ public class VistaSimple extends Vista {
     }
     
     public void mostrarConversaciones(){
-        List<Conversacion> conversaciones;
+        ArrayList<Conversacion> conversaciones;
         
         System.out.println("Mostrando conversaciones...");
         conversaciones = controlador.getConversaciones();
