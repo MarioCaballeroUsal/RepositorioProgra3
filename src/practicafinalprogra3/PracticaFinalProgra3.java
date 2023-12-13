@@ -28,7 +28,7 @@ public class PracticaFinalProgra3 {
         
 
 
-        if((args.length!=3)||(args.length!=2)){
+        if((args.length!=3)&&(args.length!=2)){
             //Como consola tiene un valor por defecto se puede dejar vacío.
             System.out.println("Numero incorrecto de argumentos, han de ser tres o dos si se deja la consola simple por defecto");
             System.exit(-1);
@@ -43,20 +43,20 @@ public class PracticaFinalProgra3 {
         }
         
         if(args[1].equalsIgnoreCase("fake")||args[1].equalsIgnoreCase("cvs")){
-            modeloLLM=args[0].toLowerCase();
+            modeloLLM=args[1].toLowerCase();
         }else{
             System.out.println("Valor de segundo argumento incorrecto, ha de ser fake o cvs");
             System.exit(-1);
         }
-        
-        if(args[2]==null||args[2].equalsIgnoreCase("console")){
-            //ahora mismo solo puede tener este valor asi que lo dejo así, para poder modificarlo rapido si añado TTS
-            consola="console";
-        }else{
-            System.out.println("Valor de tercer argumento incorrecto, ha de ser console o vacio");
-            System.exit(-1);
+        if(args.length==3){
+            if(args[2].equalsIgnoreCase("console")){
+                //ahora mismo solo puede tener este valor asi que lo dejo así, para poder modificarlo rapido si añado TTS
+                consola="console";
+            }else{
+                System.out.println("Valor de tercer argumento incorrecto, ha de ser console o vacio");
+                System.exit(-1);
+            }
         }
-        
         Modelo modelo = new Modelo(modeloLLM, repositorio);
         
         VistaSimple vista = new VistaSimple();

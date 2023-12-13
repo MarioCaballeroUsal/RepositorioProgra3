@@ -21,8 +21,9 @@ public class Conversacion implements Serializable {
     LocalDate fechaIni;
     LocalDate fechaFin;
 
-    public Conversacion(LocalDate fechaIni) {
+    public Conversacion(LocalDate fechaIni, List<Mensaje> mensajes) {
         this.fechaIni = fechaIni;
+        this.mensajes=mensajes;
     }
 
     public List<Mensaje> getMensajes() {

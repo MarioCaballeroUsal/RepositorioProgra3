@@ -53,12 +53,17 @@ public class Modelo implements Repositorio, LLM {
 
     public String formateaConversacion(Conversacion c) {
         String convFormateada = null;
+        String iniMensaje = null;
         
         Mensaje mensaje = c.mensajes.get(0);
         String fechaIni = String.valueOf(c.fechaIni);
         String numMensajes= String.valueOf(c.mensajes.size());
-        String iniMensaje = mensaje.texto.substring(0, 20);
-        
+        if(mensaje.texto.length()>20){
+            iniMensaje = mensaje.texto.substring(0, 20);
+        }
+        else{
+            iniMensaje = mensaje.texto;
+        }
         convFormateada =fechaIni+" | "+numMensajes+" | "+iniMensaje;
 
         
@@ -71,8 +76,9 @@ public class Modelo implements Repositorio, LLM {
 
     public void nuevaConversacion() {
         LocalDate momentoIni = LocalDate.now();
-        Conversacion cv = new Conversacion(momentoIni);
-        if(modeloLLM.equalsIgnoreCase("fake")){
+        List<Mensaje> mensajes= new ArrayList<>();
+        Conversacion cv = new Conversacion(momentoIni, mensajes);
+        if(this.modeloLLM.equalsIgnoreCase("fake")){
             conversacionFake(cv);
         }else{
             conversacionCSV(cv);
@@ -82,6 +88,7 @@ public class Modelo implements Repositorio, LLM {
 
     public void finalizarApp() {
         ObjectOutputStream oos = null;
+        
         try {
             oos = new ObjectOutputStream(new FileOutputStream(ruta.toFile()));
             oos.writeObject(this.conversaciones);
@@ -241,7 +248,7 @@ public class Modelo implements Repositorio, LLM {
         boolean salir=false;
         while(!salir){
             //mensajeUsuario
-            texto=Esdia.readString_ne("Escriba su mensaje: ");
+            texto=Esdia.readString_ne("\nEscriba su mensaje: ");
             if(texto.equals("/salir")){
                 salir=true;
             }else{
@@ -249,11 +256,14 @@ public class Modelo implements Repositorio, LLM {
                 Mensaje mensaje = new Mensaje(momentoMensaje, "Yo", texto);
                 cv.addMensaje(mensaje);
                 
+                
                 textoLLM= speak(texto);
-                mensaje.setMomentoEnvio(Instant.EPOCH.getEpochSecond());
-                mensaje.setTexto(textoLLM);
-                mensaje.setRemitente("LLM");
-                cv.addMensaje(mensaje);
+                long momentoEnvio = Instant.EPOCH.getEpochSecond();
+                String textoFake = textoLLM;
+                String remitente = "LLM";
+                Mensaje mensajeFake = new Mensaje(momentoEnvio, remitente, textoFake);
+                System.out.printf("%s: %s", mensajeFake.getRemitente(), mensajeFake.getTexto());
+                cv.addMensaje(mensajeFake);
             }
         }
     }

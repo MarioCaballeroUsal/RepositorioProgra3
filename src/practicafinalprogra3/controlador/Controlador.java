@@ -46,6 +46,7 @@ public class Controlador {
     public void comenzarApp() {
         modelo.comenzarApp();
         vista.aplicacionInicio(mensajeIni);
+        vista.aplicacionMenu();
         
     }
 

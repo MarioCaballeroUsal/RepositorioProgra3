@@ -80,7 +80,7 @@ public class VistaSimple extends Vista {
     
     public void mostrarConversaciones(){
         ArrayList<Conversacion> conversaciones;
-        int i=0;
+        int i=1;
         int numCv;
         String opcion;
         String[] opciones = {"y", "Y", "n", "N"};
@@ -149,7 +149,7 @@ public class VistaSimple extends Vista {
         System.out.println("INICIO CONVERSACION\n\n");
         for(String mensaje : mensajes){
             System.out.printf("%s", mensaje);
-             
+            
         }
         
         System.out.println("FIN CONVERSACION\n\n");
