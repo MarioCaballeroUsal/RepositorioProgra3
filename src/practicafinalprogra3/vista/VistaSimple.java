@@ -44,7 +44,7 @@ public class VistaSimple extends Vista {
             System.out.printf("5. Exportar Conversaciones %s\n",controlador.getRepositorio());
             System.out.println("6. Salir del Programa");
   
-            opcion = Esdia.readInt("Ingrese una opción: ",1 ,4);
+            opcion = Esdia.readInt("Ingrese una opción: ",1 ,6);
 
             switch (opcion) {
                 case 1:
@@ -68,7 +68,7 @@ public class VistaSimple extends Vista {
                 default:
                     System.out.println("Opción no válida.");
             }
-        } while (opcion != 4);
+        } while (opcion != 6);
     }
     
     public void nuevaConversacion(){
@@ -81,6 +81,9 @@ public class VistaSimple extends Vista {
     public void mostrarConversaciones(){
         ArrayList<Conversacion> conversaciones;
         int i=0;
+        int numCv;
+        String opcion;
+        String[] opciones = {"y", "Y", "n", "N"};
         
         System.out.println("Mostrando conversaciones...");
         conversaciones = controlador.getConversaciones();
@@ -88,6 +91,12 @@ public class VistaSimple extends Vista {
             
             System.out.printf("%d.- %s", i,controlador.formateaConversacion(c));
             i++;
+        }
+        opcion = Esdia.readString("Quieres ver alguna conversacion: Y/N", opciones);
+        if(opcion.equalsIgnoreCase("y")){
+            numCv=Esdia.readInt("Introduzca el numero de la conversacion.", 1, conversaciones.size());
+            
+            showConversacion(conversaciones.get(numCv));
         }
     }
     
@@ -133,6 +142,17 @@ public class VistaSimple extends Vista {
                
             }while(!salir);
         }
+    }
+
+    private void showConversacion(Conversacion c) {
+        List<String> mensajes = controlador.formateaMensajes(c);
+        System.out.println("INICIO CONVERSACION\n\n");
+        for(String mensaje : mensajes){
+            System.out.printf("%s", mensaje);
+            
+        }
+        
+        System.out.println("FIN CONVERSACION\n\n");
     }
         
 }

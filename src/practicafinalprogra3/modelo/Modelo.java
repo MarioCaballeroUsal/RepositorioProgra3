@@ -22,9 +22,11 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -320,9 +322,28 @@ public class Modelo implements Repositorio, LLM {
         if(identifier.equals("fake")){
             mensajeLLM = FraseFake.getFraseFake(mensaje);
 
-        
+        }
+   
         return mensajeLLM;
     }
-   
-    
+
+    public List<String> formateaMensajes(Conversacion c) {
+        List<Mensaje> mensajes = c.getMensajes();
+        List<String> mensajesFormateados=null;
+        for (Mensaje mensaje : mensajes) {
+            
+            long momentoEnv = mensaje.getMomentoEnvio();
+            String remitente = mensaje.getRemitente();
+            String contenido = mensaje.getTexto();
+            
+            Date fecha = new Date(momentoEnv*1000);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd:mm:uuuu hh:mm:ss", Locale.ENGLISH);
+
+            String momentoEnvio = sdf.format(fecha);
+            
+            mensajesFormateados.add(momentoEnvio+" "+remitente+" \""+contenido+"\"");
+        }
+        
+        return mensajesFormateados;
+    }
 }

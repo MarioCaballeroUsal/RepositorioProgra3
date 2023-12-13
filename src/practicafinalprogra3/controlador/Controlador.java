@@ -61,5 +61,9 @@ public class Controlador {
         return modelo.importarConversacionesRepositorio();
     }
 
+    public List<String> formateaMensajes(Conversacion c) {
+        return modelo.formateaMensajes(c);
+    }
+
   
 }
