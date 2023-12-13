@@ -21,6 +21,8 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,7 +54,7 @@ public class Modelo implements Repositorio, LLM {
         String numMensajes= String.valueOf(c.mensajes.size());
         String iniMensaje = mensaje.texto.substring(0, 20);
         
-        convFormateada =fechaIni+"|"+numMensajes+"|"+iniMensaje;
+        convFormateada =fechaIni+" | "+numMensajes+" | "+iniMensaje;
 
         
         return convFormateada;
@@ -63,7 +65,14 @@ public class Modelo implements Repositorio, LLM {
     }
 
     public void nuevaConversacion() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        LocalDate momentoIni = LocalDate.now();
+        Conversacion cv = new Conversacion(momentoIni);
+        if(modeloLLM.equalsIgnoreCase("fake")){
+            conversacionFake(cv);
+        }else{
+            conversacionCSV(cv);
+        }
+        conversaciones.add(cv);
     }
 
     public void finalizarApp() {
@@ -125,8 +134,20 @@ public class Modelo implements Repositorio, LLM {
             exportarJSON();
         }
     }
-
-    public ArrayList<Conversacion> importarConversacionesNoBin() {
+    @Override
+    public String getIdentifier(){
+        return this.modeloLLM;
+    }
+    
+    @Override
+    public String speak(String habla){
+        String mensaje=null;
+        
+        
+        return mensaje;
+    }
+    
+    public ArrayList<Conversacion> importarConversacionesRepositorio() {
         if(this.repositorio.equalsIgnoreCase("xml")){
             this.conversaciones = importarXML();
         }else{
@@ -139,34 +160,41 @@ public class Modelo implements Repositorio, LLM {
         
         XmlMapper xmlMapper = new XmlMapper(); 
         String xml = null;
-        try{
-            xml = new String(Files.readAllBytes(rutaxml), StandardCharsets.UTF_8);
-        }catch(IOException e){
-            System.out.println("Error al importar: "+e.getMessage());
+        if(rutaxml.toFile().exists()&&rutaxml.toFile().isFile()){
+            try{
+                xml = new String(Files.readAllBytes(rutaxml), StandardCharsets.UTF_8);
+            }catch(IOException e){
+                System.out.println("Error al importar: "+e.getMessage());
+            }
+            try{
+                conversaciones = xmlMapper.readValue(xml, xmlMapper.getTypeFactory().constructCollectionType(ArrayList.class, Conversacion.class));
+            }catch(IOException e){
+                System.out.println("Error al pasar los datos del archivo a conversaciones: "+e.getMessage());
+            }
+            return conversaciones;
+        }else{
+            return null;
         }
-        try{
-           conversaciones = xmlMapper.readValue(xml, xmlMapper.getTypeFactory().constructCollectionType(ArrayList.class, Conversacion.class));
-        }catch(IOException e){
-            System.out.println("Error al pasar los datos del archivo a conversaciones: "+e.getMessage());
-        }
-        return conversaciones;
         
     }
 
     private ArrayList<Conversacion> importarJSON() {
         Gson gson = new Gson();
         String json=null;
+        if(rutajson.toFile().exists()&&rutajson.toFile().isFile()){
+            try{
+                json = new String(Files.readAllBytes(rutajson), StandardCharsets.UTF_8);
+            }catch(IOException e){
+                System.out.println("Error al importar: "+e.getMessage());
+            }
+                Type tipoDeLista = new TypeToken<ArrayList<Conversacion>>() {}.getType();
         
-        try{
-            json = new String(Files.readAllBytes(rutajson), StandardCharsets.UTF_8);
-        }catch(IOException e){
-            System.out.println("Error al importar: "+e.getMessage());
-        }
-            Type tipoDeLista = new TypeToken<ArrayList<Conversacion>>() {}.getType();
-        
-        conversaciones = gson.fromJson(json, tipoDeLista);
+            conversaciones = gson.fromJson(json, tipoDeLista);
 
-        return conversaciones;
+            return conversaciones;
+        }else{
+            return null;
+        }
     }
 
     private void exportarXML() {
@@ -178,13 +206,15 @@ public class Modelo implements Repositorio, LLM {
         } catch (IOException e) {
             System.out.println("Error al pasar de conversacion a String: "+e);
         }
-        
-        try {
-            Files.write(rutaxml, xml.getBytes(StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            System.out.println("Error al exportar: "+ e);
+        if(xml.isEmpty()){
+            System.err.println("La cadena está vacia por lo que no se puede exportar nada");
+        }else{
+            try {
+                Files.write(rutaxml, xml.getBytes(StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                System.out.println("Error al exportar: "+ e);
+            }
         }
-        
     }
 
     private void exportarJSON() {
@@ -195,16 +225,31 @@ public class Modelo implements Repositorio, LLM {
         }catch(Exception e){
             System.out.println("Error al pasar las conversaciones a String: "+e);
         }
-        try{
-            Files.write(rutajson, json.getBytes(StandardCharsets.UTF_8));
-        }catch (IOException e){
-            System.out.println("Error al exportar: "+e);
-        }
+        if(json.isEmpty()){
+            System.err.println("La cadena está vacia por lo que no se puede exportar nada");
+        }else{
+            try{
+                Files.write(rutajson, json.getBytes(StandardCharsets.UTF_8));
+            }catch (IOException e){
+                System.out.println("Error al exportar: "+e);
+            }
 
+        }
     }
     
     public String getRepositorio(){
         return this.repositorio;
+    }
+
+    private void conversacionFake(Conversacion cv) {
+        
+        
+        
+    }
+
+    private void conversacionCSV(Conversacion cv) {
+        Path rutaCSV = Rutas.pathToFileInFolderOnDesktop("jLLM", ".csv");
+
     }
 
    

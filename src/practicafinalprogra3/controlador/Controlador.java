@@ -58,7 +58,7 @@ public class Controlador {
     }
 
     public ArrayList<Conversacion> importarConversaciones() {
-        return modelo.importarConversacionesNoBin();
+        return modelo.importarConversacionesRepositorio();
     }
 
   

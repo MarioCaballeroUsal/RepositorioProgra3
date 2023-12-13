@@ -9,5 +9,6 @@ package practicafinalprogra3.modelo;
  * @author mario
  */
 public interface LLM {
-    
+    public String speak(String habla);
+    public String getIdentifier();
 }

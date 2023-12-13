@@ -5,6 +5,8 @@
 package practicafinalprogra3.modelo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -16,10 +18,10 @@ public class Conversacion implements Serializable {
     
     List<Mensaje> mensajes;
     String tipoLLM;
-    long fechaIni;
-    long fechaFin;
+    LocalDate fechaIni;
+    LocalDate fechaFin;
 
-    public Conversacion(long fechaIni) {
+    public Conversacion(LocalDate fechaIni) {
         this.fechaIni = fechaIni;
     }
 
@@ -39,19 +41,19 @@ public class Conversacion implements Serializable {
         this.tipoLLM = tipoLLM;
     }
 
-    public long getFechaIni() {
+    public LocalDate getFechaIni() {
         return fechaIni;
     }
 
-    public void setFechaIni(long fechaIni) {
+    public void setFechaIni(LocalDate fechaIni) {
         this.fechaIni = fechaIni;
     }
 
-    public long getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(long fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
     

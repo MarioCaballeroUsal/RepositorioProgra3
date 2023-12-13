@@ -80,11 +80,14 @@ public class VistaSimple extends Vista {
     
     public void mostrarConversaciones(){
         ArrayList<Conversacion> conversaciones;
+        int i=0;
         
         System.out.println("Mostrando conversaciones...");
         conversaciones = controlador.getConversaciones();
         for(Conversacion c : conversaciones){
-            System.out.printf("%s", controlador.formateaConversacion(c));
+            
+            System.out.printf("%d.- %s", i,controlador.formateaConversacion(c));
+            i++;
         }
     }
     
