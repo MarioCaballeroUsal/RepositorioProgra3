@@ -149,7 +149,7 @@ public class VistaSimple extends Vista {
         System.out.println("INICIO CONVERSACION\n\n");
         for(String mensaje : mensajes){
             System.out.printf("%s", mensaje);
-            
+             
         }
         
         System.out.println("FIN CONVERSACION\n\n");
