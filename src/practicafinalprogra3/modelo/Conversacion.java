@@ -56,6 +56,10 @@ public class Conversacion implements Serializable {
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
+
+    void addMensaje(Mensaje mensaje) {
+        this.mensajes.add(mensaje);
+    }
     
     
 }

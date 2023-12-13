@@ -4,6 +4,7 @@
  */
 package practicafinalprogra3.modelo;
 
+import com.coti.tools.Esdia;
 import java.util.ArrayList;
 import java.util.List;
 import com.coti.tools.Rutas;
@@ -21,6 +22,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.logging.Level;
@@ -140,11 +142,18 @@ public class Modelo implements Repositorio, LLM {
     }
     
     @Override
-    public String speak(String habla){
-        String mensaje=null;
+    public String speak(String mensaje){
+        String mensajeLLM=null;
         
+        String identifier=getIdentifier();
         
-        return mensaje;
+        if(identifier.equals("fake")){
+            mensajeLLM = FraseFake.getFraseFake(mensaje);
+        }else{
+            
+        }
+        
+        return mensajeLLM;
     }
     
     public ArrayList<Conversacion> importarConversacionesRepositorio() {
@@ -242,9 +251,26 @@ public class Modelo implements Repositorio, LLM {
     }
 
     private void conversacionFake(Conversacion cv) {
-        
-        
-        
+        String texto=null;
+        String textoLLM=null;
+        boolean salir=false;
+        while(!salir){
+            //mensajeUsuario
+            texto=Esdia.readString_ne("Escriba su mensaje: ");
+            if(texto.equals("/salir")){
+                salir=true;
+            }else{
+                long momentoMensaje = Instant.EPOCH.getEpochSecond();
+                Mensaje mensaje = new Mensaje(momentoMensaje, "Yo", texto);
+                cv.addMensaje(mensaje);
+                
+                textoLLM= speak(texto);
+                mensaje.setMomentoEnvio(Instant.EPOCH.getEpochSecond());
+                mensaje.setTexto(textoLLM);
+                mensaje.setRemitente("LLM");
+                cv.addMensaje(mensaje);
+            }
+        }
     }
 
     private void conversacionCSV(Conversacion cv) {
