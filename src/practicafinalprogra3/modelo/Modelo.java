@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,8 +40,8 @@ public class Modelo implements Repositorio, LLM {
     
     
     Path ruta = Rutas.pathToFileInFolderOnDesktop("jLLM", "jLLM.bin");
-    Path rutaxml = Rutas.pathToFileInFolderOnDesktop("jLLM", "jLLM.json");
-    Path rutajson = Rutas.pathToFileInFolderOnDesktop("jLLM", "jLLM.xml");
+    Path rutaxml = Rutas.pathToFileInFolderOnDesktop("jLLM", "input.json");
+    Path rutajson = Rutas.pathToFileInFolderOnDesktop("jLLM", "input.xml");
 
     
     public Modelo(String modeloLLM, String repositorio) {
@@ -136,25 +137,7 @@ public class Modelo implements Repositorio, LLM {
             exportarJSON();
         }
     }
-    @Override
-    public String getIdentifier(){
-        return this.modeloLLM;
-    }
     
-    @Override
-    public String speak(String mensaje){
-        String mensajeLLM=null;
-        
-        String identifier=getIdentifier();
-        
-        if(identifier.equals("fake")){
-            mensajeLLM = FraseFake.getFraseFake(mensaje);
-        }else{
-            
-        }
-        
-        return mensajeLLM;
-    }
     
     public ArrayList<Conversacion> importarConversacionesRepositorio() {
         if(this.repositorio.equalsIgnoreCase("xml")){
@@ -274,10 +257,72 @@ public class Modelo implements Repositorio, LLM {
     }
 
     private void conversacionCSV(Conversacion cv) {
-        Path rutaCSV = Rutas.pathToFileInFolderOnDesktop("jLLM", ".csv");
-
+        Path rutaCSV = Rutas.pathToFileInFolderOnDesktop("jLLM", "input.csv");
+        String delimitador = ",";
+        String texto=null;
+        ArrayList<Frase> frases = new ArrayList<>();
+        
+        
+        if(rutaCSV.toFile().exists()&&rutaCSV.toFile().isFile()){
+            try {
+                List<String> lineas = Files.readAllLines(rutaCSV);
+                for(String linea: lineas){
+                    Frase frase = Frase.getFraseFormateada(linea, delimitador);
+                    if(frase!=null){
+                        frases.add(frase);
+                    }
+                }
+                boolean salir=false;
+                while(!salir){
+                    //mensajeUsuario
+                    texto=Esdia.readString_ne("Escriba su mensaje: ");
+                    if(texto.equals("/salir")){
+                        salir=true;
+                    }else{
+                        long momentoMensaje = Instant.EPOCH.getEpochSecond();
+                        Mensaje mensaje = new Mensaje(momentoMensaje, "Yo", texto);
+                        cv.addMensaje(mensaje);
+                
+                        Random val = new Random();
+                        int mensajeSeleccionado = val.nextInt(0, lineas.size());
+                        
+                        Frase fraseAUsar  = frases.get(mensajeSeleccionado);
+                        mensaje.setMomentoEnvio(Instant.EPOCH.getEpochSecond());
+                        mensaje.setTexto(fraseAUsar.getTexto());
+                        mensaje.setRemitente("LLM");
+                        cv.addMensaje(mensaje);
+                    }
+                }
+                        
+            } catch (IOException ex) {
+                System.out.println("Error al importar del fichero CSV: "+ex);
+            }
+        }else{
+            System.out.println("Fichero no encontrado.");
     }
+        
+        
+        
+        
+ 
+    }
+    @Override
+    public String getIdentifier(){
+        return this.modeloLLM;
+    }
+    
+    @Override
+    public String speak(String mensaje){
+        String mensajeLLM=null;
+        
+        String identifier=getIdentifier();
+        
+        if(identifier.equals("fake")){
+            mensajeLLM = FraseFake.getFraseFake(mensaje);
 
+        
+        return mensajeLLM;
+    }
    
     
 }
