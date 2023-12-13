@@ -50,6 +50,16 @@ public class Controlador {
     }
 
     public void exportarConversaciones() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        modelo.exportarConversaciones();
     }
+
+    public String getRepositorio() {
+        return modelo.getRepositorio();
+    }
+
+    public ArrayList<Conversacion> importarConversaciones() {
+        return modelo.importarConversacionesNoBin();
+    }
+
+  
 }

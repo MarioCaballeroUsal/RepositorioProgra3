@@ -4,11 +4,14 @@
  */
 package practicafinalprogra3.modelo;
 
+import java.io.Serializable;
+
+
 /**
  *
  * @author mario
  */
-public class Mensaje {
+public class Mensaje implements Serializable{
     long momentoEnvio;
     String remitente;
     String texto;

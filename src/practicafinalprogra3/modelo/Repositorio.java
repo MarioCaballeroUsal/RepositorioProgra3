@@ -13,5 +13,6 @@ import java.util.ArrayList;
 public interface Repositorio {
     public ArrayList<Conversacion> importarConversaciones();
     
-    public void exportarConversaciones (ArrayList<Conversacion> conversaciones);
+    //El propio modelo tiene las conversaciones asi que no hace falta pasarlas
+    public void exportarConversaciones ();
 }

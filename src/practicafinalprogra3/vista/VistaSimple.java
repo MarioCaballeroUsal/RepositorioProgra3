@@ -40,8 +40,9 @@ public class VistaSimple extends Vista {
             System.out.println("1. Nueva Conversacion");
             System.out.println("2. Mostrar Conversaciones");
             System.out.println("3. Eliminar Conversacion");
-            System.out.println("4. Exportar Conversaciones");
-            System.out.println("5. Salir del Programa");
+            System.out.printf("4. Importar Conversaciones %s\n", controlador.getRepositorio());
+            System.out.printf("5. Exportar Conversaciones %s\n",controlador.getRepositorio());
+            System.out.println("6. Salir del Programa");
   
             opcion = Esdia.readInt("Ingrese una opción: ",1 ,4);
 
@@ -56,9 +57,12 @@ public class VistaSimple extends Vista {
                     eliminarConversacion();
                     break;
                 case 4:
-                    exportarConversaciones();
+                    importarConversaciones();
                     break;
                 case 5:
+                    exportarConversaciones();
+                    break;
+                case 6:
                     aplicacionFin("Saliendo...");
                     break;
                 default:
@@ -84,8 +88,17 @@ public class VistaSimple extends Vista {
         }
     }
     
+    public void importarConversaciones(){
+        ArrayList<Conversacion> conversaciones=new ArrayList<>();
+        System.out.println("Importando conversaciones...");
+        conversaciones = controlador.importarConversaciones();
+    }
+    
     public void exportarConversaciones(){
+        System.out.println("Exportando conversaciones...");
         controlador.exportarConversaciones();
+        //Si hubiese un error habria saltado en el proceso de exportacion
+        System.out.println("Conversaciones exportadas");
     }
     
     public void eliminarConversacion(){

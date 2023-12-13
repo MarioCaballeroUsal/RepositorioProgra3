@@ -4,6 +4,7 @@
  */
 package practicafinalprogra3.modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author mario
  */
-public class Conversacion {
+public class Conversacion implements Serializable {
     
     List<Mensaje> mensajes;
     String tipoLLM;
