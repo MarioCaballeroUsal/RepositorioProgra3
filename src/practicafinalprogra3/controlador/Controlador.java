@@ -23,6 +23,7 @@ public class Controlador {
         this.modelo = modelo;
         this.vista = vista;
     }
+    
 
     public void finalizarApp() {
         modelo.finalizarApp();
@@ -33,6 +34,7 @@ public class Controlador {
     }
 
     public ArrayList<Conversacion> getConversaciones() {
+ 
         return modelo.getConversaciones();
     }
     
@@ -43,6 +45,11 @@ public class Controlador {
 
     public void comenzarApp() {
         modelo.comenzarApp();
+        vista.aplicacionInicio(mensajeIni);
         
+    }
+
+    public void exportarConversaciones() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

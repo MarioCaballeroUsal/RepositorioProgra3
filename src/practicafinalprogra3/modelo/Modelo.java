@@ -66,8 +66,7 @@ public class Modelo implements Repositorio, LLM {
     }
 
     public void comenzarApp() {
- 
-            importarConversaciones();
+        importarConversaciones();
 
     }
     
@@ -151,7 +150,7 @@ public class Modelo implements Repositorio, LLM {
         String json = null;
         try{
             json = gson.toJson(conversaciones);
-        }catch(IOException e){
+        }catch(Exception e){
             System.out.println("Error al pasar las conversaciones a String: "+e);
         }
         try{

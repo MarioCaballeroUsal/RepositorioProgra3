@@ -4,6 +4,7 @@
  */
 package practicafinalprogra3.vista;
 import com.coti.tools.Esdia;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import practicafinalprogra3.modelo.Conversacion;
@@ -84,11 +85,39 @@ public class VistaSimple extends Vista {
     }
     
     public void exportarConversaciones(){
-        
+        controlador.exportarConversaciones();
     }
     
     public void eliminarConversacion(){
+        ArrayList<Conversacion> conversaciones = null;
+        boolean salir =false;
+        String valor=null;
+        String[] opciones = {"y", "Y", "n", "N"};
         
+        conversaciones= controlador.getConversaciones();
+        if(conversaciones.isEmpty()){
+            System.out.println("No hay conversaciones guardadas.");
+        }
+        else{
+            
+            do{
+                System.out.printf("Hay %d conversaciones, si desea verlas seleccione la opcion correspondiente en el menu anterior.\n\n", conversaciones.size());
+
+                valor = Esdia.readString("Desea eliminar alguna conversacion? Y/N", opciones);
+                if(valor.equalsIgnoreCase("y")){
+                    int convAEliminar = Esdia.readInt("Indique el numero de la conversacion", 0, conversaciones.size());
+                    try{
+                        conversaciones.remove(convAEliminar);
+                    }catch(Exception e){
+                        System.out.println("No se ha podido eliminar conversacion. Error: "+e);
+                    }
+                }else{
+                    salir=true;
+                }
+               
+            }while(!salir);
+        }
     }
+        
 }
 
